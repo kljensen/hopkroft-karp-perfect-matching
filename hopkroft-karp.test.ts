@@ -3,7 +3,6 @@ import { describe, test, expect } from "bun:test";
 // Import the implementation (adjust path as needed)
 // Assuming the implementation is in './hopkroft-karp.ts'
 import { 
-  BipartiteGraph, 
   Matching, 
   HopcroftKarp, 
   createBipartiteGraph, 
@@ -117,12 +116,14 @@ describe("HopcroftKarp", () => {
       const perfectMatch = hk.findPerfectMatching();
       
       expect(perfectMatch).not.toBeNull();
-      expect(perfectMatch!.size).toBe(3);
+      // perfectMatch cannot be null here because of the previous assertion
+      expect(perfectMatch?.size).toBe(3);
       
       // Verify all vertices are matched
       for (let i = 0; i < 3; i++) {
-        expect(perfectMatch!.matchLeft[i]).not.toBe(-1);
-        expect(perfectMatch!.matchRight[i]).not.toBe(-1);
+        // perfectMatch cannot be null here because of the previous assertion
+        expect(perfectMatch?.matchLeft[i]).not.toBe(-1);
+        expect(perfectMatch?.matchRight[i]).not.toBe(-1);
       }
     });
 
@@ -159,9 +160,10 @@ describe("HopcroftKarp", () => {
       const perfectMatch = hk.findPerfectMatching();
       
       expect(perfectMatch).not.toBeNull();
-      expect(perfectMatch!.size).toBe(1);
-      expect(perfectMatch!.matchLeft[0]).toBe(0);
-      expect(perfectMatch!.matchRight[0]).toBe(0);
+      // perfectMatch cannot be null here because of the previous assertion
+      expect(perfectMatch?.size).toBe(1);
+      expect(perfectMatch?.matchLeft[0]).toBe(0);
+      expect(perfectMatch?.matchRight[0]).toBe(0);
     });
   });
 
@@ -196,9 +198,10 @@ describe("HopcroftKarp", () => {
       const graph = createBipartiteGraph(n, n, edges);
       const hk = new HopcroftKarp(graph);
       
-      const start = performance.now();
+      // Use globalThis.performance to ensure browser/Node.js compatibility
+      const start = globalThis.performance.now();
       const matching = hk.findMaximumMatching();
-      const end = performance.now();
+      const end = globalThis.performance.now();
       
       expect(matching.size).toBe(n);
       expect(end - start).toBeLessThan(100); // Should complete in < 100ms
@@ -423,8 +426,8 @@ describe("HopcroftKarp", () => {
       const graph = createBipartiteGraph(3, 3, edges);
       const hk = new HopcroftKarp(graph);
       
-      // Modify the graph after HopcroftKarp is created
-      graph.edges[2].push(2); // Add edge from left node 2 to right node 2
+      // Modify the graph after HopcroftKarp is created - cast to mutable array for test purposes
+      (graph.edges[2] as number[]).push(2); // Add edge from left node 2 to right node 2
       
       const matching = hk.findMaximumMatching();
       

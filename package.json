@@ -3,8 +3,17 @@
   "module": "hopkroft-karp.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "test": "bun test",
+    "lint": "eslint \"**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "start": "bun run index.ts"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.27.0"
   },
   "peerDependencies": {
     "typescript": "^5"

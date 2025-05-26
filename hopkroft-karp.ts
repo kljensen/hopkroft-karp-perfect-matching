@@ -89,7 +89,8 @@ export class HopcroftKarp {
     this.dist[this.graph.leftSize] = Infinity;
 
     while (queue.length > 0) {
-      const u = queue.shift()!;
+      // We know queue is not empty from the while condition
+      const u = queue.shift() || 0;
       
       if (this.dist[u] < this.dist[this.graph.leftSize]) {
         for (const v of this.graph.edges[u]) {
